@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>recall</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="忘却曲線に基づく効率的な復習で学習効果を最大化">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="recall">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzNiODJmNiIvPgo8cGF0aCBkPSJNMTYgOEMxMS41ODIgOCA4IDExLjU4MiA4IDE2QzggMjAuNDE4IDExLjU4MiAyNCAxNiAyNEMyMC40MTggMjQgMjQgMjAuNDE4IDI0IDE2QzI0IDExLjU4MiAyMC40MTggOCAxNiA4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE2IDEwLjY2N0MxMy42MTkgMTAuNjY3IDExLjY2NyAxMi42MTkgMTEuNjY3IDE1QzExLjY2NyAxNy4zODEgMTMuNjE5IDE5LjMzMyAxNiAxOS4zMzNDMTguMzgxIDE5LjMzMyAyMC4zMzMgMTcuMzgxIDIwLjMzMyAxNUMyMC4zMzMgMTIuNjE5IDE4LjM4MSAxMC42NjcgMTYgMTAuNjY3WiIgZmlsbD0iIzNiODJmNiIvPgo8cGF0aCBkPSJNMTQuNjY3IDEzLjMzM0gxNC4xMzNWMTUuMzMzSDE0LjY2N1YxMy4zMzNaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTkuMzMzIDEzLjMzM0gxOC44VjE1LjMzM0gxOS4zMzNWMTMuMzMzWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE2LjMzMyAxOC4zMzNDMTUuOTk2IDE4LjMzMyAxNS42NjcgMTguMDA0IDE1LjY2NyAxNy42NjdDMTUuNjY3IDE3LjMzIDE1Ljk5NiAxNyAxNi4zMzMgMTdIMTYuMzMzQzE2LjY3IDE3IDE3IDE3LjMzIDE3IDE3LjY2N0MxNyAxOC4wMDQgMTYuNjcgMTguMzMzIDE2LjMzMyAxOC4zMzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iMjIiIGZpbGw9IiMzYjgyZjYiLz4KPHBhdGggZD0iTTkwIDQ1QzY1LjE0NyA0NSA0NSA2NS4xNDcgNDUgOTBDNDUgMTE0Ljg1MyA2NS4xNDcgMTM1IDkwIDEzNUMxMTQuODUzIDEzNSAxMzUgMTE0Ljg1MyAxMzUgOTBDMTM1IDY1LjE0NyAxMTQuODUzIDQ1IDkwIDQ1WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTkwIDYwQzcwLjU2IDYwIDU1IDc1LjU2IDU1IDkwQzU1IDEwNC40NCA3MC41NiAxMjAgOTAgMTIwQzEwOS40NCAxMjAgMTI1IDEwNC40NCAxMjUgOTBDMTI1IDc1LjU2IDEwOS40NCA2MCA5MCA2MFoiIGZpbGw9IiMzYjgyZjYiLz4KPHBhdGggZD0iTTgyLjUgNjcuNUg4MVY3OC41SDgyLjVWNjcuNVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMDAuNSA2Ny41SDk5Vjc4LjVIMTAwLjVWNjcuNVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik05MS43NSA4Mi43NUM5MS4xMTYgODIuNzUgOTAuNTgzIDgyLjIxNyA5MC41ODMgODEuNTgzQzkwLjU4MyA4MC45NSA5MS4xMTYgODAuNDE3IDkxLjc1IDgwLjQxN0g5MS43NUM5Mi4zODQgODAuNDE3IDkyLjkxNyA4MC45NSA5Mi45MTcgODEuNTgzQzkyLjkxNyA4Mi4yMTcgOTIuMzg0IDgyLjc1IDkxLjc1IDgyLjc1WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==">
+    <link rel="manifest" href="manifest.json">
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .timeline-container {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .priority-high { border-left: 4px solid #ef4444; }
+        .priority-medium { border-left: 4px solid #f59e0b; }
+        .priority-low { border-left: 4px solid #10b981; }
+
+        .understanding-0 { background-color: #fef2f2; }
+        .understanding-1 { background-color: #fffbeb; }
+        .understanding-2 { background-color: #f0fdf4; }
+        .understanding-3 { background-color: #f0f9ff; }
+
+        /* モバイル向けのタッチ最適化 */
+        @media (max-width: 768px) {
+            .mobile-touch-target {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .mobile-text {
+                font-size: 16px; /* iOSでズームを防ぐ */
+            }
+            
+            .mobile-padding {
+                padding: 1rem;
+            }
+            
+            .mobile-margin {
+                margin: 0.5rem;
+            }
+        }
+
+        /* スワイプジェスチャー用 */
+        .swipeable {
+            touch-action: pan-y;
+        }
+
+        /* モバイル向けのモーダル調整 */
+        @media (max-width: 768px) {
+            #reviewModal > div {
+                margin: 1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- ログインセクション -->
+    <div id="loginSection" class="fixed top-4 right-4 z-50">
+        <div id="loginForm" class="bg-white rounded-lg shadow-md p-4">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-user text-blue-500 text-xl"></i>
+                <div>
+                    <input type="text" id="userNameInput" placeholder="ユーザー名を入力" 
+                        class="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                    <button onclick="recallSystem.login()" 
+                        class="ml-2 bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded transition-colors duration-200 mobile-touch-target">
+                        ログイン
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 mobile-padding">
+        <!-- ヘッダー -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2 mobile-text">
+                <i class="fas fa-brain text-blue-500 mr-3"></i>
+                recall
+            </h1>
+            <p class="text-gray-600 mobile-text">忘却曲線に基づく効率的な復習で学習効果を最大化</p>
+        </header>
+
+        <!-- 検索機能 -->
+        <div class="mb-6">
+            <div class="max-w-md mx-auto">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="学習内容を検索..."
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- 学習内容追加 -->
+            <div class="lg:col-span-1">
+                <div class="card-hover bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 mobile-text">
+                        <i class="fas fa-plus-circle text-green-500 mr-2"></i>
+                        新しい学習内容
+                    </h2>
+                    <form id="addStudyForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mobile-text">タイトル</label>
+                            <input type="text" id="studyTitle" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mobile-text">内容</label>
+                            <textarea id="studyContent" rows="4" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text"
+                                placeholder="学習した内容を記録してください..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mobile-text">優先度</label>
+                            <select id="studyPriority"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                                <option value="high">高</option>
+                                <option value="medium" selected>中</option>
+                                <option value="low">低</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 mobile-text">理解度</label>
+                            <select id="studyUnderstanding"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                                <option value="0">理解していない</option>
+                                <option value="1" selected>少し理解している</option>
+                                <option value="2">理解している</option>
+                                <option value="3">人に説明できる</option>
+                            </select>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 mobile-touch-target">
+                            <i class="fas fa-save mr-2"></i>
+                            学習内容を追加
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 今日の復習（タイムライン形式） -->
+            <div class="lg:col-span-2">
+                <div class="card-hover bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 mobile-text">
+                        <i class="fas fa-calendar-check text-orange-500 mr-2"></i>
+                        今日の復習
+                    </h2>
+                    <div id="todayReviews" class="timeline-container space-y-4 swipeable">
+                        <!-- 復習項目がここに動的に追加されます -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学習履歴 -->
+        <div class="mt-8">
+            <div class="card-hover bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 mobile-text">
+                    <i class="fas fa-history text-purple-500 mr-2"></i>
+                    学習履歴
+                </h2>
+                <div class="mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <select id="filterPriority" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                        <option value="">すべての優先度</option>
+                        <option value="high">高優先度</option>
+                        <option value="medium">中優先度</option>
+                        <option value="low">低優先度</option>
+                    </select>
+                    <select id="filterUnderstanding" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mobile-text">
+                        <option value="">すべての理解度</option>
+                        <option value="0">理解していない</option>
+                        <option value="1">少し理解している</option>
+                        <option value="2">理解している</option>
+                        <option value="3">人に説明できる</option>
+                    </select>
+                </div>
+                <div id="studyHistory" class="space-y-4 swipeable">
+                    <!-- 学習履歴がここに動的に追加されます -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 復習モーダル -->
+    <div id="reviewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 mobile-text">復習</h3>
+            <div id="reviewContent" class="mb-4"></div>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button id="reviewEasy" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-md transition-colors duration-200 mobile-touch-target">
+                    <i class="fas fa-smile mr-2"></i>簡単
+                </button>
+                <button id="reviewMedium" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-4 rounded-md transition-colors duration-200 mobile-touch-target">
+                    <i class="fas fa-meh mr-2"></i>普通
+                </button>
+                <button id="reviewHard" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-md transition-colors duration-200 mobile-touch-target">
+                    <i class="fas fa-frown mr-2"></i>難しい
+                </button>
+            </div>
+            <button id="closeModal" class="mt-4 w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 px-4 rounded-md transition-colors duration-200 mobile-touch-target">
+                閉じる
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Service Workerの登録
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWAインストールプロンプト
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // インストールボタンを表示（必要に応じて）
+            // showInstallButton();
+        });
+    </script>
+</body>
+</html> 
